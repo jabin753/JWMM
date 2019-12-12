@@ -1,12 +1,12 @@
 'use strict'
 
-const Sequelize = require('sequelize')
+const { Sequelize, Model } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
+class Member extends Model {}
 module.exports = function setupMemberModel (config) {
   const sequelize = setupDatabase(config)
-
-  return sequelize.define('member', {
+  Member.init({
     uuid: {
       type: Sequelize.STRING,
       allowNull: false
@@ -35,5 +35,7 @@ module.exports = function setupMemberModel (config) {
     notes: {
       type: Sequelize.TEXT
     }
-  })
+  }, { sequelize, modelName: 'member' })
+
+  return Member
 }

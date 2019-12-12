@@ -1,20 +1,20 @@
 'use strict'
 
-const Sequelize = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
+class AssignModel extends Model {}
 module.exports = function setupAssignModel (config) {
   const sequelize = setupDatabase(config)
-
-  return sequelize.define('assign', {
+  AssignModel.init({
     uuid: {
-      type: Sequelize.STRING,
+      type: DataTypes.UUID,
       allowNull: false
     },
     date: {
-      type: Sequelize.DATEONLY,
-      allowNull: false
+      type: DataTypes.DATEONLY,
+      allowNull: true
     }
-
-  })
+  }, { sequelize, modelName: 'assign' })
+  return AssignModel
 }
