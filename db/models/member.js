@@ -3,10 +3,17 @@
 const { Sequelize, Model } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
-class Member extends Model {}
+class MemberModel extends Model {
+  static createMember (values) {
+    const member = Object.assign({
+      uuid: uuidv4()
+    }, values)
+    return this.create(member)
+  }
+}
 module.exports = function setupMemberModel (config) {
   const sequelize = setupDatabase(config)
-  Member.init({
+  MemberModel.init({
     uuid: {
       type: Sequelize.STRING,
       allowNull: false
@@ -37,5 +44,5 @@ module.exports = function setupMemberModel (config) {
     }
   }, { sequelize, modelName: 'member' })
 
-  return Member
+  return MemberModel
 }
