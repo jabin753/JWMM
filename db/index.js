@@ -12,8 +12,9 @@ module.exports = async function (config) {
   const MemberModel = setupMemberModel(config)
 
   MemberModel.hasMany(AssignModel)
-  AssignModel.belongsTo(MemberModel)
-  
+  AssignModel.belongsTo(MemberModel, { as: 'encargado' })
+  AssignModel.belongsTo(MemberModel, { as: 'ayudante' })
+
   await sequelize.authenticate()
 
   if (config.setup) {
@@ -22,7 +23,6 @@ module.exports = async function (config) {
 
   const Assign = setupAssign(AssignModel)
   const Member = setupMember(MemberModel)
-
 
   return {
     Assign,
