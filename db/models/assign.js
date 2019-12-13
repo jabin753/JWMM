@@ -5,9 +5,7 @@ const setupDatabase = require('../lib/db')
 
 class AssignModel extends Model {
   static createAssign (values) {
-    const assign = Object.assign({
-      uuid: uuidv4()
-    }, values)
+    const assign = { uuid: uuidv4(), ...values }
     return this.create(assign)
   }
 }
