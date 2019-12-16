@@ -18,6 +18,9 @@ module.exports = function setupAssignModel (config) {
     date: {
       type: DataTypes.DATEONLY
     },
+    interventionType: {
+      type: DataTypes.STRING
+    },
     title: {
       type: DataTypes.STRING
     },
@@ -27,11 +30,11 @@ module.exports = function setupAssignModel (config) {
     lengthTime: {
       type: DataTypes.INTEGER
     },
-    classRoom: {
+    givenIn: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    pointToWork: {
+    lesson: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
