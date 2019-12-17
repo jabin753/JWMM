@@ -1,6 +1,6 @@
 'use strict'
 
-const { Sequelize, Model } = require('sequelize')
+const { DataTypes, Model } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
 class MemberModel extends Model {
@@ -13,32 +13,32 @@ module.exports = function setupMemberModel (config) {
   const sequelize = setupDatabase(config)
   MemberModel.init({
     uuid: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     firstName: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     lastName: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     phone: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     genre: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     isServant: {
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
     isAssistant: {
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
     birthDate: {
-      type: Sequelize.DATEONLY
+      type: DataTypes.DATEONLY
     },
     notes: {
-      type: Sequelize.TEXT
+      type: DataTypes.TEXT
     }
   }, { sequelize, modelName: 'member' })
 
