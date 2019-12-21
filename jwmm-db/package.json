@@ -4,7 +4,7 @@
   "description": "Meeting Management for JW",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "DEBUG=jwmm:* node setup.js",
     "lint": "standard"
   },
   "repository": {
