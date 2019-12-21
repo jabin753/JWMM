@@ -1,5 +1,7 @@
 'use strict'
 
+const debug = require('debug')('jwmm:db')
+require('dotenv').config()
 const db = require('./')
 
 async function setup () {
@@ -9,7 +11,8 @@ async function setup () {
     password: process.env.DB_PASS || 'postgres',
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
-    setup: true
+    setup: true,
+    logging: s => debug(s)
   }
 
   await db(config).catch(handleFatalError)
