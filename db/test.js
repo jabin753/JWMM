@@ -1,6 +1,7 @@
 'use strict'
 
-const db  = require('./')
+const db = require('./')
+const assignFixtures = require('./tests/fixtures/assign')
 async function setup () {
   const config = {
     database: process.env.DB_NAME || 'jwmm',
@@ -11,10 +12,9 @@ async function setup () {
     setup: false
   }
   const { Assign } = await db(config).catch(handleFatalError)
-  await Assign.createAssign({
-    date: new Date()
-  })
-    .catch(handleFatalError)
+  assignFixtures.all.forEach(assign => Assign.createAssign(assign).catch(handleFatalError))
+
+  // await Assign.createAssign(assignFixtures.single).catch(handleFatalError)
   const res = await Assign.findAll()
   res.forEach(assign => console.log(assign.dataValues.uuid))
   // console.log(res[0])

@@ -28,7 +28,7 @@ module.exports = function setupAssignModel (config) {
       type: DataTypes.TEXT
     },
     lengthTime: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     givenIn: {
       type: DataTypes.STRING,
