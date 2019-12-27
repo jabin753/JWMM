@@ -1,7 +1,8 @@
 'use strict'
-
+require('dotenv/config')
 const db = require('./')
 const assignFixtures = require('./tests/fixtures/assign')
+const memberFixtures = require('./tests/fixtures/member')
 async function setup () {
   const config = {
     database: process.env.DB_NAME || 'jwmm',
@@ -11,12 +12,12 @@ async function setup () {
     dialect: 'postgres',
     setup: false
   }
-  const { Assign } = await db(config).catch(handleFatalError)
-  assignFixtures.all.forEach(assign => Assign.createAssign(assign).catch(handleFatalError))
-
-  // await Assign.createAssign(assignFixtures.single).catch(handleFatalError)
-  const res = await Assign.findAll()
-  res.forEach(assign => console.log(assign.dataValues.uuid))
+  const { Assign, Member } = await db(config).catch(handleFatalError)
+  // assignFixtures.all.forEach(assign => Assign.createAssign(assign).catch(handleFatalError))
+  await Member.createMember(memberFixtures.single)
+  //  await Assign.createAssign(assignFixtures.single).catch(handleFatalError)
+  const res = await Assign.findAll({where: {interventionType: 'TESOROS'}})
+  res.forEach(assign => console.log(assign.dataValues))
   // console.log(res[0])
   console.log('Success!')
   process.exit(0)
