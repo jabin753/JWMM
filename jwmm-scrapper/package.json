@@ -1,0 +1,40 @@
+{
+  "name": "jwmm-scapper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meeting Manager for jw's - WOL Scrapper",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "start-dev": "DEBUG=jwmm:* nodemon index.js",
+    "example": "DEBUG=jwmm:* nodemon example.js",
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jabin753/JWMM.git"
+  },
+  "keywords": [
+    "scrapper"
+  ],
+  "author": "jabin753",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jabin753/JWMM/issues"
+  },
+  "homepage": "https://github.com/jabin753/JWMM#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "standard": "^14.3.1"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "debug": "^4.1.1",
+    "defaults": "^1.0.3",
+    "moment": "^2.24.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "voca": "^1.4.0"
+  }
+}
