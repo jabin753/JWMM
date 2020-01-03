@@ -8,7 +8,7 @@ const { ministrySchool } = await wol(Date.now())
 console.log(ministrySchool)
 ```
 Returns: 
-```json
+```javascript
 {
  data: [{
     title: 'Third Return Visit',
