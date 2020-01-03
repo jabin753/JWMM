@@ -4,41 +4,51 @@ const rp = require('request-promise')
 const debug = require('debug')('jwmm:scrapper:index')
 const defaults = require('defaults')
 const cheerio = require('cheerio')
-const utils = require('./utils')
+const { getUrl, parseAssign } = require('./utils')
 const chalk = require('chalk')
 
-module.exports = async function wol (config) {
+export default async function wol (config) {
   debug(`${chalk.blue('Scrapper initializing...')}`)
   const configs = defaults(config, {
     lang: 'en',
     date: Date.now()
   })
-  const url = utils.getUrl(configs)
+  const url = getUrl(configs)
   debug(`${chalk.blue(`request to ${url}`)}`)
   const html = await rp(url)
   const $ = cheerio.load(html)
   debug(`${chalk.green(`received from ${url}`)}`)
+  debug(`${chalk.green(`html Content: ${html}`)}`)
 
-  let opening = []
-  opening.push($('#p3').text().trim())
-  opening.push($('#p4').text().trim())
+  const initialSong = parseAssign($('#section1 > div > ul > li > #p3').text().trim())
+  const openingComments = parseAssign($('#section1 > div > ul > li > #p4').text().trim())
 
   // TREASURES
-  let section1 = []
-  $('#section2 > div > ul > li > p').each((i,el) => section1.push($(el).text()))
+  const bibleTreasures = []
+  $('#section2 > div > ul > li > p').each((i, el) => {
+    const assign = $(el).text().trim()
+    bibleTreasures.push(parseAssign(assign))
+  })
 
   // APPLY YOURSELF
-  let section2 = []
-  $('#section3 > div > ul > li > p').each((i,el) => section2.push($(el).text()))
+  const ministrySchool = []
+  $('#section3 > div > ul > li > p').each((i, el) => {
+    const assign = $(el).text().trim()
+    ministrySchool.push(parseAssign(assign))
+  })
 
   // LIVING
-  let section3 = []
-  $('#section4 > div > ul > li > p').each((i,el) => section3.push($(el).text()))
+  const livingChristians = []
+  $('#section4 > div > ul > li > p').each((i, el) => {
+    const assign = $(el).text().trim()
+    livingChristians.push(parseAssign(assign))
+  })
 
   return {
-    opening,
-    section1,
-    section2,
-    section3
+    openingComments,
+    initialSong,
+    bibleTreasures,
+    ministrySchool,
+    livingChristians
   }
 }

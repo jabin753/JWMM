@@ -5,10 +5,11 @@
   "description": "Meeting Manager for jw's - WOL Scrapper",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "start-dev": "DEBUG=jwmm:* nodemon index.js",
-    "example": "DEBUG=jwmm:* nodemon example.js",
-    "lint": "standard"
+    "start": "NODE_ENV=production babel-node index.js",
+    "start-dev": "DEBUG=jwmm:* nodemon --exec babel-node index.js",
+    "example": "DEBUG=jwmm:* nodemon --exec babel-node example.js",
+    "lint": "standard",
+    "babel": "nodemon --exec babel-node babelTest.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,10 @@
   },
   "homepage": "https://github.com/jabin753/JWMM#readme",
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "nodemon": "^2.0.2",
     "standard": "^14.3.1"
   },
@@ -34,7 +39,6 @@
     "defaults": "^1.0.3",
     "moment": "^2.24.0",
     "request": "^2.88.0",
-    "request-promise": "^4.2.5",
-    "voca": "^1.4.0"
+    "request-promise": "^4.2.5"
   }
 }
