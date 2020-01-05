@@ -9,8 +9,7 @@ console.log(ministrySchool)
 ```
 Returns: 
 ```javascript
-{
- data: [{
+[{
     title: 'Third Return Visit',
     length: '3 min. or less',
     description: 'Choose your own scripture, and give the householder a meeting invitation.',
@@ -27,6 +26,6 @@ Returns:
     length: '5 min. or less',
     description: 'jl lesson 12',
     lesson: 6
-  }]
-}
+  }
+]
 ```
