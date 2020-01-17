@@ -7,7 +7,7 @@ const cheerio = require('cheerio')
 const { getUrl, parseAssign } = require('./utils')
 const chalk = require('chalk')
 
-export default async function wol (config) {
+module.exports =  async function wol (config) {
   debug(`${chalk.blue('Scrapper initializing...')}`)
   const configs = defaults(config, {
     lang: 'en',
