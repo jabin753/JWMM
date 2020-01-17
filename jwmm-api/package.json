@@ -22,7 +22,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
-    "jw-scrapper": "file:../jwmm-scrapper",
+    "jwmm-scrapper": "file:../jwmm-scrapper",
     "jwmm-db": "file:../jwmm-db",
     "moment": "^2.24.0",
     "sequelize": "^5.21.3"

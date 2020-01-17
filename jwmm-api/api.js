@@ -4,6 +4,7 @@ const debug = require('debug')('jwmm:api:routes')
 const express = require('express')
 const moment = require('moment')
 const db = require('jwmm-db')
+const wolScrapper = require('jwmm-scrapper')
 const { Op } = require('sequelize')
 
 const config = require('./config')
@@ -13,93 +14,110 @@ const api = express.Router()
 let services, Assign, Member
 
 api.use('*', async (req, res, next) => {
-    if(!services) {
-        debug('Connecting to database')
-        try {
-            services = await db(config.db)
-        } catch (e) {
-            return next(e)
-        }
-        Assign = services.Assign
-        Member = services.Member
+  if (!services) {
+    debug('Connecting to database')
+    try {
+      services = await db(config.db)
+    } catch (e) {
+      return next(e)
     }
-    next()
+    Assign = services.Assign
+    Member = services.Member
+  }
+  next()
 })
 
-api.get('/assigns', async(req, res, next) => {
-    debug('A request has come to /assign')
+api.get('/assigns', async (req, res, next) => {
+  debug('A request has come to /assign')
 
-    //TODO: add not authorized handler
-    let assigns = []
-    try {
-        assigns = await Assign.findAll({ order: [['id','DESC']], limit:10 })
-    } catch(e) { return next(e)}
-    
-    res.send(assigns)
+  // TODO: add not authorized handler
+  let assigns = []
+  try {
+    assigns = await Assign.findAll({ order: [['id', 'DESC']], limit: 10 })
+  } catch (e) { return next(e) }
+
+  res.send(assigns)
 })
 
-api.get('/assigns/pending', async(req, res, next) => {
-    debug('Request to /pending')
+api.get('/assigns/pending', async (req, res, next) => {
+  debug('Request to /pending')
 
-    const cond = {
-        where: {
-            date: { [Op.gte]: moment(Date.now()).format('YYYY-MM-DD') }
-        }
+  const cond = {
+    where: {
+      date: { [Op.gte]: moment(Date.now()).format('YYYY-MM-DD') }
     }
-    
-    let assigns = []
-    try {
-        assigns = await Assign.findAll(cond)
-    } catch(e) { next(e) }
-    res.send(assigns)
+  }
+
+  let assigns = []
+  try {
+    assigns = await Assign.findAll(cond)
+  } catch (e) { next(e) }
+  res.send(assigns)
 })
 
-api.get('/assign/:uuid', async(req, res, next) => {
-    const { uuid } = req.params
+api.get('/assign/:uuid', async (req, res, next) => {
+  const { uuid } = req.params
 
-    const condition = { where: { uuid } }
-    let assign = []
-    try {
-        assign = await Assign.findAll(condition)
-    } catch(e) { next(e) }
+  const condition = { where: { uuid } }
+  let assign = []
+  try {
+    assign = await Assign.findAll(condition)
+  } catch (e) { next(e) }
 
-    res.send(assign)
+  res.send(assign)
 })
 
-api.get('/assign/random', async(req, res, next) => {
-    let assignGenerated
-    try {
-        const fixture = require('../jwmm-db/tests/fixtures/assign').single
-        assignGenerated = await Assign.createAssign(fixture)
-    } catch(e) { next(e) }
-    if(assignGenerated)
-
-    res.status(200).send(assignGenerated)
+api.get('/assign/random', async (req, res, next) => {
+  let assignGenerated
+  try {
+    const fixture = require('../jwmm-db/tests/fixtures/assign').single
+    assignGenerated = await Assign.createAssign(fixture)
+  } catch (e) { next(e) }
+  if (assignGenerated) { res.status(200).send(assignGenerated) }
 })
 
+api.get('/members', async (req, res, next) => {
+  let members = []
+  try {
+    members = members.findAll()
+  } catch (e) { next(e) }
 
-api.get('/members', async(req, res, next) => {
-    let members = []
-    try {
-        members = members.findAll()
-    } catch(e) { next(e) }
-
-    res.send(members)
+  res.send(members)
 })
 
-api.get('/member/:uuid', async(req, res, next) => {
-    const { uuid } = req.params
-    let member = []
-    const cond = {
-        where: {
-            uuid
-        }
+api.get('/member/:uuid', async (req, res, next) => {
+  const { uuid } = req.params
+  let member = []
+  const cond = {
+    where: {
+      uuid
     }
-    try {
-        member = await Member.findAll(cond)
-    } catch(e) { next(e) }
+  }
+  try {
+    member = await Member.findAll(cond)
+  } catch (e) { next(e) }
 
-    res.send(member)
+  res.send(member)
+})
+
+api.get('/wol/:lang', async (req, res, next) => {
+  const { lang } = req.params
+  let wol
+  try {
+    wol = await wolScrapper({ lang })
+  } catch (e) { next(e) }
+
+  res.send(wol)
+})
+api.get('/wol/:lang/:YYYY/:MM/:DD', async (req, res, next) => {
+  const { lang, YYYY, MM, DD } = req.params
+  const date = `${YYYY}-${MM}-${DD}`
+  let wol
+  try {
+    wol = await wolScrapper({ lang, date })
+  } catch (e) { next(e) }
+
+  res.send(wol)
 })
 
 module.exports = api
