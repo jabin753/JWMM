@@ -1,25 +1,40 @@
 'use strict'
 
 const rp = require('request-promise')
-const debug = require('debug')('jwmm:scrapper:index')
+const debug = require('debug')('jwmm:scrapper')
 const defaults = require('defaults')
 const cheerio = require('cheerio')
 const { getUrl, parseAssign } = require('./utils')
 const chalk = require('chalk')
 
-module.exports =  async function wol (config) {
+module.exports = async function wol (config) {
   debug(`${chalk.blue('Scrapper initializing...')}`)
   const configs = defaults(config, {
     lang: 'en',
     date: Date.now()
   })
-  const url = getUrl(configs)
-  debug(`${chalk.blue(`request to ${url}`)}`)
-  const html = await rp(url)
-  const $ = cheerio.load(html)
-  debug(`${chalk.green(`received from ${url}`)}`)
-  debug(`${chalk.green(`html Content: ${html}`)}`)
+  let url
+  try {
+    url = getUrl(configs)
+  } catch (e) {
+    debug(`${chalk.red(e)}`)
 
+    return {}
+  }
+  debug(`${chalk.blue(`request to ${url}`)}`)
+  let html, $
+  try {
+    html = await rp(url)
+    $ = cheerio.load(html)
+  } catch (e) {
+    debug(`${chalk.red(e)}`)
+    return {}
+  }
+  debug(`${chalk.green(`received from ${url}`)}`)
+  // debug(`${chalk.green(`html Content: ${html}`)}`)
+
+  // ACTUAL WEEK
+  const week = $('#p1').text().trim()
   const initialSong = parseAssign($('#section1 > div > ul > li > #p3').text().trim())
   const openingComments = parseAssign($('#section1 > div > ul > li > #p4').text().trim())
 
@@ -45,6 +60,7 @@ module.exports =  async function wol (config) {
   })
 
   return {
+    week,
     openingComments,
     initialSong,
     bibleTreasures,
