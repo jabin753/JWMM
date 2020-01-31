@@ -1,11 +1,11 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <v-content>
+    </v-content>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import '@/assets/css/tailwind.css'
-
 export default {
   name: 'home',
   components: {}
