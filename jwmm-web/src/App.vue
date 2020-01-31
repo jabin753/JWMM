@@ -1,12 +1,19 @@
 <template>
-  <div id="app">
+  <v-app>
     <jw-nav></jw-nav>
-    <router-view />
-  </div>
+    <router-view></router-view>
+  </v-app>
 </template>
+
 <script>
 import JwNav from '@/components/JwNav'
 export default {
-  components: { JwNav }
+  name: 'App',
+
+  components: { JwNav },
+
+  data: () => ({
+    //
+  })
 }
 </script>
