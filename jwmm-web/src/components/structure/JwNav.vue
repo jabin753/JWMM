@@ -53,7 +53,7 @@ export default {
   name: 'JwNav',
 
   data: () => ({
-    drawer: true,
+    drawer: false,
     group: null
   }),
 
