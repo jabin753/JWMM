@@ -35,28 +35,28 @@ module.exports = async function wol (config) {
 
   // ACTUAL WEEK
   const week = $('#p1').text().trim()
-  const initialSong = parseAssign($('#section1 > div > ul > li > #p3').text().trim())
-  const openingComments = parseAssign($('#section1 > div > ul > li > #p4').text().trim())
+  const initialSong = {interventionType: 'initialSong', ...parseAssign($('#section1 > div > ul > li > #p3').text().trim())}
+  const openingComments = {interventionType: 'openingComments',...parseAssign($('#section1 > div > ul > li > #p4').text().trim())}
 
   // TREASURES
   const bibleTreasures = []
   $('#section2 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    bibleTreasures.push(parseAssign(assign))
+    bibleTreasures.push({interventionType: `treasures${i}`, ...parseAssign(assign)})
   })
 
   // APPLY YOURSELF
   const ministrySchool = []
   $('#section3 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    ministrySchool.push(parseAssign(assign))
+    ministrySchool.push({interventionType: `ministrySchool${i}`, ...parseAssign(assign)})
   })
 
   // LIVING
   const livingChristians = []
   $('#section4 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    livingChristians.push(parseAssign(assign))
+    livingChristians.push({interventionType: `livingChristians${i}`, ...parseAssign(assign)})
   })
 
   return {
