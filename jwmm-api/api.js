@@ -55,7 +55,19 @@ api.get('/assigns/pending', async (req, res, next) => {
   res.send(assigns)
 })
 
+api.get('/assign/random', async (req, res, next) => {
+  debug(`random`)
+  let assignGenerated
+  try {
+    const fixture = require('../jwmm-db/tests/fixtures/assign').single
+    assignGenerated = await Assign.createAssign(fixture)
+  } catch (e) { next(e) }
+  if (assignGenerated) { res.status(200).send(assignGenerated) }
+})
+
 api.get('/assign/:uuid', async (req, res, next) => {
+  debug(`finding somewhere`)
+
   const { uuid } = req.params
 
   const condition = { where: { uuid } }
@@ -65,15 +77,6 @@ api.get('/assign/:uuid', async (req, res, next) => {
   } catch (e) { next(e) }
 
   res.send(assign)
-})
-
-api.get('/assign/random', async (req, res, next) => {
-  let assignGenerated
-  try {
-    const fixture = require('../jwmm-db/tests/fixtures/assign').single
-    assignGenerated = await Assign.createAssign(fixture)
-  } catch (e) { next(e) }
-  if (assignGenerated) { res.status(200).send(assignGenerated) }
 })
 
 api.get('/members', async (req, res, next) => {
