@@ -4,9 +4,9 @@ const { Model, DataTypes } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
 class AssignModel extends Model {
-  static createAssign (values) {
+  static createAssign (values, options = {}) {
     const assign = { uuid: uuidv4(), ...values }
-    return this.create(assign)
+    return this.create(assign, options)
   }
 }
 module.exports = function setupAssignModel (config) {
@@ -14,9 +14,6 @@ module.exports = function setupAssignModel (config) {
   AssignModel.init({
     uuid: {
       type: DataTypes.UUID
-    },
-    date: {
-      type: DataTypes.DATEONLY
     },
     interventionType: {
       type: DataTypes.STRING

@@ -4,9 +4,9 @@ const { DataTypes, Model } = require('sequelize')
 const setupDatabase = require('../lib/db')
 
 class MemberModel extends Model {
-  static createMember (values) {
+  static createMember (values, options = {}) {
     const member = { uuid: uuidv4(), ...values }
-    return this.create(member)
+    return this.create(member, options)
   }
 }
 module.exports = function setupMemberModel (config) {
@@ -22,23 +22,14 @@ module.exports = function setupMemberModel (config) {
     lastName: {
       type: DataTypes.STRING
     },
-    phone: {
-      type: DataTypes.STRING
-    },
-    genre: {
-      type: DataTypes.STRING
-    },
-    isServant: {
-      type: DataTypes.BOOLEAN
-    },
-    isAssistant: {
-      type: DataTypes.BOOLEAN
-    },
-    birthDate: {
-      type: DataTypes.DATEONLY
+    privileges: {
+      type: DataTypes.JSON
     },
     notes: {
       type: DataTypes.TEXT
+    },
+    details: {
+      type: DataTypes.JSON
     }
   }, { sequelize, modelName: 'member' })
 
