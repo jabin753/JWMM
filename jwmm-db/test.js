@@ -3,6 +3,8 @@ require('dotenv/config')
 const db = require('./')
 const assignFixtures = require('./tests/fixtures/assign')
 const memberFixtures = require('./tests/fixtures/member')
+const meetingFixtures = require('./tests/fixtures/meeting')
+
 async function setup () {
   const config = {
     database: process.env.DB_NAME || 'jwmm',
@@ -12,14 +14,33 @@ async function setup () {
     dialect: 'postgres',
     setup: false
   }
-  const { Assign, Member } = await db(config).catch(handleFatalError)
-  // assignFixtures.all.forEach(assign => Assign.createAssign(assign).catch(handleFatalError))
-  await Member.createMember(memberFixtures.single)
-  //  await Assign.createAssign(assignFixtures.single).catch(handleFatalError)
-  const res = await Assign.findAll({where: {interventionType: 'TESOROS'}})
-  res.forEach(assign => console.log(assign.dataValues))
-  // console.log(res[0])
-  console.log('Success!')
+  const { Assign, Member, Meeting } = await db(config).catch(handleFatalError)
+
+  // for(let assign of assignFixtures.all) {
+  //   await Assign.createAssign(assign)
+  // }
+
+  // for(let member of memberFixtures.all) {
+  //   await Member.createMember(member)
+  // }
+
+  // for(let meeting of meetingFixtures.all) {
+  //   await Meeting.createMeeting(meeting)
+  // }
+  const mixed = assignFixtures.single
+  mixed.Member = memberFixtures.single
+  mixed.Meeting = meetingFixtures.single
+  // console.log(mixed)
+
+  await Assign.createAssign(mixed, {
+    include: [{
+      model: Member,
+      as: 'assignedHelper'
+    }, {
+      model: Meeting
+    }]
+  })
+
   process.exit(0)
 }
 
