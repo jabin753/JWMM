@@ -27,20 +27,15 @@ async function setup () {
   // for(let meeting of meetingFixtures.all) {
   //   await Meeting.createMeeting(meeting)
   // }
-  const mixed = assignFixtures.single
-  mixed.Member = memberFixtures.single
-  mixed.Meeting = meetingFixtures.single
-  // console.log(mixed)
+  const mixed = meetingFixtures.single
+  mixed.Assigns = assignFixtures.all
+  console.log(mixed)
 
-  await Assign.createAssign(mixed, {
-    include: [{
-      model: Member,
-      as: 'assignedHelper'
-    }, {
-      model: Meeting
-    }]
+  const generatedMeeting = await Meeting.build(mixed, {
+    include: [{ model: Assign }]
   })
-
+  console.log(generatedMeeting.dataValues)
+  await generatedMeeting.save()
   process.exit(0)
 }
 
