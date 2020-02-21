@@ -1,15 +1,13 @@
 const moment = require('moment')
-const defaults = require('defaults')
 
 /**
 * @param {*} configs function's parameters
 * @returns WOL url based on language and time
 */
-const getUrl = function (configs) {
-  const config = defaults(configs, {
-    lang: 'es',
-    date: Date.now()
-  })
+const getUrl = function (config = {
+  lang: 'es',
+  date: Date.now()
+}) {
   const baseUrl = 'https://wol.jw.org'
   var lang, r, lp
   switch (config.lang) {
