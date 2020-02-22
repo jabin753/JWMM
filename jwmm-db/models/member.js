@@ -13,8 +13,7 @@ module.exports = function setupMemberModel (config) {
   const sequelize = setupDatabase(config)
   MemberModel.init({
     uuid: {
-      type: DataTypes.UUID,
-      allowNull: false
+      type: DataTypes.UUID
     },
     firstName: {
       type: DataTypes.STRING
