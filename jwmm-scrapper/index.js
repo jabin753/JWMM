@@ -21,6 +21,7 @@ module.exports = async function wol (configs = {
     return {}
   }
   debug(`${chalk.blue(`request to ${url}`)}`)
+
   let html, $
   try {
     html = await rp(url)
@@ -30,40 +31,33 @@ module.exports = async function wol (configs = {
     return {}
   }
   debug(`${chalk.green(`received from ${url}`)}`)
-  // debug(`${chalk.green(`html Content: ${html}`)}`)
 
+  const meeting = { assigns: [] }
+  let assignCounter = 1
   // ACTUAL WEEK
-  const week = $('#p1').text().trim()
-  const initialSong = { interventionType: 'initialSong', ...parseAssign($('#section1 > div > ul > li > #p3').text().trim()) }
-  const openingComments = { interventionType: 'openingComments', ...parseAssign($('#section1 > div > ul > li > #p4').text().trim()) }
+  meeting.week = $('#p1').text().trim()
+  meeting.date = configs.date
+  meeting.assigns.push({
+    interventionType: 'initialSong', order: assignCounter++, ...parseAssign($('#section1 > div > ul > li > #p3').text().trim())
+  })
+  meeting.assigns.push({
+    interventionType: 'openingComments', order: assignCounter++, ...parseAssign($('#section1 > div > ul > li > #p4').text().trim())
+  })
 
-  // TREASURES
-  const bibleTreasures = []
   $('#section2 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    bibleTreasures.push({ interventionType: `treasures${i}`, ...parseAssign(assign) })
+    meeting.assigns.push({ interventionType: 'treasures', order: assignCounter++, ...parseAssign(assign) })
   })
 
-  // APPLY YOURSELF
-  const ministrySchool = []
   $('#section3 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    ministrySchool.push({ interventionType: `ministrySchool${i}`, ...parseAssign(assign) })
+    meeting.assigns.push({ interventionType: 'ministrySchool', order: assignCounter++, ...parseAssign(assign) })
   })
 
-  // LIVING
-  const livingChristians = []
   $('#section4 > div > ul > li > p').each((i, el) => {
     const assign = $(el).text().trim()
-    livingChristians.push({ interventionType: `livingChristians${i}`, ...parseAssign(assign) })
+    meeting.assigns.push({ interventionType: 'livingChristians', order: assignCounter++, ...parseAssign(assign) })
   })
 
-  return {
-    week,
-    openingComments,
-    initialSong,
-    bibleTreasures,
-    ministrySchool,
-    livingChristians
-  }
+  return meeting
 }
