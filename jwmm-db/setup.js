@@ -7,10 +7,10 @@ const db = require('./')
 async function setup () {
   const config = {
     database: process.env.DB_NAME || 'jwmm',
-    username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASS || 'postgres',
+    username: process.env.DB_USER || 'root',
+    password: process.env.DB_PASS || '',
     host: process.env.DB_HOST || 'localhost',
-    dialect: 'postgres',
+    dialect: 'mysql',
     setup: true,
     logging: s => debug(s)
   }
