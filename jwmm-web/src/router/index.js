@@ -1,14 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Summary from '../views/Summary.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Summary
+    redirect: '/panel'
+  },
+  {
+    path: '/panel',
+    component: () => import('@/views/index'),
+    children: [
+      {
+        path: '',
+        name: 'Summary',
+        component: () => import('@/views/Summary')
+      },
+      {
+        path: 'meeting',
+        name: 'Meeting',
+        component: () => import('@/views/meeting/')
+      }
+    ]
   }
 ]
 

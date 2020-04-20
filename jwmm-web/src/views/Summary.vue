@@ -36,8 +36,8 @@ export default {
   },
   mounted() {
     fetch('/api/wol/es')
-    .then(res => res.json())
-    .then(summaryData => (this.summaryData = summaryData))
+      .then(res => res.json())
+      .then(summaryData => (this.summaryData = summaryData))
   }
 }
 </script>
