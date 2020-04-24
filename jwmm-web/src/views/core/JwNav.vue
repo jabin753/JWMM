@@ -4,29 +4,26 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            Bienvenido
+            Welcome
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
 
-      <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-account-group</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Members</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
+      <v-list nav dense>
+        <v-list-item
+          link
+          v-for="(link, index) in drawerItems"
+          :key="index"
+          :to="link.to"
+        >
+          <v-list-item-icon>
+            <v-icon> {{ link.icon }} </v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            {{ link.title }}
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -54,7 +51,24 @@ export default {
 
   data: () => ({
     drawer: false,
-    group: null
+    group: null,
+    drawerItems: [
+      {
+        icon: 'mdi-account-group',
+        title: 'Members',
+        to: '/panel/members'
+      },
+      {
+        icon: 'mdi-home-modern',
+        title: 'Meetings',
+        to: '/panel/meeting'
+      },
+      {
+        icon: 'mdi-account-settings',
+        title: 'Settings',
+        to: '/paneñ/settings'
+      }
+    ]
   }),
 
   watch: {
