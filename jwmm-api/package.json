@@ -24,7 +24,7 @@
     "express-jwt": "^6.0.0",
     "jwmm-db": "file:../jwmm-db",
     "jwmm-scrapper": "file:../jwmm-scrapper",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "request": "^2.88.0",
     "sequelize": "^5.21.3"
   }
